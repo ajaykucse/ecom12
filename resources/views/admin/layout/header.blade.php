@@ -16,15 +16,15 @@
       </li>
 
       <li class="nav-item d-none d-md-block">
-        <a href="./index.html" class="nav-link">
+        <a href="#" class="nav-link">
           <i class="bi bi-grid-1x2 me-1" aria-hidden="true"></i>
-          Live preview
+          Home
         </a>
       </li>
       <li class="nav-item d-none d-md-block">
-        <a href="./docs/introduction.html" class="nav-link">
+        <a href="#" class="nav-link">
           <i class="bi bi-book me-1" aria-hidden="true"></i>
-          Documentation
+          Contact
         </a>
       </li>
     </ul>
@@ -158,7 +158,7 @@
       <!--end::Messages Dropdown Menu-->
 
       <!--begin::Notifications Dropdown Menu-->
-      <li class="nav-item dropdown">
+      <!-- <li class="nav-item dropdown">
         <a
           class="nav-link"
           data-bs-toggle="dropdown"
@@ -188,7 +188,7 @@
           <div class="dropdown-divider"></div>
           <a href="#" class="dropdown-item dropdown-footer"> See All Notifications </a>
         </div>
-      </li>
+      </li> -->
       <!--end::Notifications Dropdown Menu-->
 
       <!--begin::Language Menu-->
@@ -297,47 +297,39 @@
       <li class="nav-item dropdown user-menu">
         <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">
           <img
-            src="{{ asset('/admin/images/user2-160x160.jpg') }}"
-            class="user-image rounded-circle shadow"
-            alt="Alexander Pierce"
-          />
-          <span class="d-none d-md-inline">Alexander Pierce</span>
+            @if(!empty(Auth::guard('admin')->user()->image))
+              src="{{ url('admin/images/photos/' . Auth::guard('admin')->user()->image) }}"
+            @else
+              src="{{ asset('admin/images/default.png') }}"
+            @endif
+              class="user-image rounded-circle shadow"
+              alt="User Image"
+            />
+          <span class="d-none d-md-inline">{{ Auth::guard('admin')->user()->name }}</span>
         </a>
         <ul class="dropdown-menu dropdown-menu-lg dropdown-menu-end">
           <!--begin::User Image-->
           <li class="user-header text-bg-primary">
-            <img
-              src="{{ asset('/admin/images/user2-160x160.jpg') }}"
-              class="rounded-circle shadow"
-              alt="Alexander Pierce"
+            <img 
+            @if(!empty(Auth::guard('admin')->user()->image))
+              src="{{ url('admin/images/photos/' . Auth::guard('admin')->user()->image) }}"
+            @else
+              src="{{ asset('admin/images/default.png') }}"
+            @endif
+              class="user-image rounded-circle shadow"
+              alt="User Image"
             />
             <p>
-              Alexander Pierce - Web Developer
-              <small>Member since Nov. 2023</small>
+              {{ Auth::guard('admin')->user()->name }}
+              <small>Member since {{ Auth::guard('admin')->user()->created_at }}</small>
             </p>
           </li>
           <!--end::User Image-->
-          <!--begin::Menu Body-->
-          <li class="user-body">
-            <!--begin::Row-->
-            <div class="row">
-              <div class="col-4 text-center">
-                <a href="#">Followers</a>
-              </div>
-              <div class="col-4 text-center">
-                <a href="#">Sales</a>
-              </div>
-              <div class="col-4 text-center">
-                <a href="#">Friends</a>
-              </div>
-            </div>
-            <!--end::Row-->
-          </li>
-          <!--end::Menu Body-->
+
           <!--begin::Menu Footer-->
           <li class="user-footer">
             <a href="#" class="btn btn-outline-secondary">Profile</a>
-            <a href="#" class="btn btn-outline-danger float-end">Sign out</a>
+            <a href="{{ url('admin/logout') }}" class="btn btn-outline-danger float-end">Sign out</a>
           </li>
           <!--end::Menu Footer-->
         </ul>

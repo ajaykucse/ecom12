@@ -54,6 +54,7 @@
         <!--end::Accessibility Meta Tags-->
 
         <!--begin::Primary Meta Tags-->
+        <meta name="csrf-token" content="{{ csrf_token() }}">
         <meta name="title" content="AdminLTE v4 | Dashboard" />
         <meta name="author" content="ColorlibHQ" />
         <meta
