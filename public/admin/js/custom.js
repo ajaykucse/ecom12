@@ -49,8 +49,8 @@ $(document).ready(function(){
       }
     });
 
-    // Update Subadmin Status
-    // Update Subadmin Status
+// Update Subadmin Status
+// Update Subadmin Status
 $(document).on('click', '.updateSubadminStatus', function (e) {
     e.preventDefault();
 

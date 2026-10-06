@@ -31,6 +31,11 @@ Route::prefix('admin')->group(function () {
         // Display Subadmins Details
         Route::get('subadmins', [AdminController::class, 'subadmins']);
         Route::post('update-subadmin-status', [AdminController::class, 'updateSubadminStatus']);
+        Route::get('add-edit-subadmin/{id?}', [AdminController::class, 'addEditSubadmin']);
+        Route::post('add-edit-subadmin/request', [AdminController::class, 'addEditSubadminRequest']);
+        Route::get('delete-subadmin/{id}', [AdminController::class, 'deleteSubadmin']);
+        Route::get('/update-role/{id}',[AdminController::class,'updateRole']);
+        Route::post('/update-role/request',[AdminController::class,'updateRoleRequest']);
         // Admin Logout
         Route::get('logout', [AdminController::class, 'destroy'])->name('admin.logout');
     });
