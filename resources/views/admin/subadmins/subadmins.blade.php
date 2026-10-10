@@ -49,7 +49,7 @@
                   <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
                 </div>
                 @endif
-                <table class="table table-bordered" role="table">
+                <table id="subadmins" class="table table-bordered table-striped">
                   <thead>
                     <tr>
                       <th>ID</th>
@@ -81,33 +81,16 @@
                           &nbsp;&nbsp;
                           <a title="Set Permissions for Sub-admin" href="{{ url('admin/update-role/'.$subadmin->id) }}"><i class="fas fa-unlock"></i></a>
                           &nbsp;&nbsp;
-                          <a style="color:##3f6ed3" title="Delete Subadmin" href="{{ url('admin/delete-subadmin/'.$subadmin->id) }}"><i class="fas fa-trash"></i></a>
+                          <a style="color:#3f6ed3;" class="confirmDelete" name="Subadmin" title="Delete Subadmin" href="javascript:void(0)" data-module="subadmin" data-id="{{ $subadmin->id }}">
+                            <i class="fas fa-trash"></i>
+                          </a>
 						            </td>
                       </tr>
                     @endforeach
                   </tbody>
                 </table>
               </div>
-              <!-- /.card-body -->
-              <div class="card-footer clearfix">
-                <ul class="pagination pagination-sm m-0 float-end">
-                  <li class="page-item">
-                    <a class="page-link" href="#">«</a>
-                  </li>
-                  <li class="page-item">
-                    <a class="page-link" href="#">1</a>
-                  </li>
-                  <li class="page-item">
-                    <a class="page-link" href="#">2</a>
-                  </li>
-                  <li class="page-item">
-                    <a class="page-link" href="#">3</a>
-                  </li>
-                  <li class="page-item">
-                    <a class="page-link" href="#">»</a>
-                  </li>
-                </ul>
-              </div>
+
             </div>
             <!-- /.card -->
           </div>

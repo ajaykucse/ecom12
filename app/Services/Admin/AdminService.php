@@ -5,6 +5,7 @@ use Intervention\Image\Laravel\Facades\Image;
 use Intervention\Image\ImageManager;
 use Intervention\Image\Drivers\Gd\Driver;
 use App\Models\Admin;
+use App\Models\AdminsRole;
 
 use Auth;
 use Hash;
@@ -222,4 +223,31 @@ public function addEditSubadmin($request)
         $subadmindata->save();
         return array("message"=>$message);
     }
+
+    public function updateRole($request) {
+        $data = $request->all();
+
+        // Remove existing roles before updating
+        AdminsRole::where('subadmin_id', $data['subadmin_id'])->delete();
+
+        // Assign new roles dynamically
+        foreach ($data as $key => $value) {
+            if (!is_array($value)) continue; // Skip non-module fields
+
+            $view = isset($value['view']) ? $value['view'] : 0;
+            $edit = isset($value['edit']) ? $value['edit'] : 0;
+            $full = isset($value['full']) ? $value['full'] : 0;
+
+            AdminsRole::insert([
+                'subadmin_id' => $data['subadmin_id'],
+                'module' => $key,
+                'view_access' => $view,
+                'edit_access' => $edit,
+                'full_access' => $full
+            ]);
+        }
+
+        return ['message' => 'Subadmin Roles updated successfully!'];
+    }
+
 }

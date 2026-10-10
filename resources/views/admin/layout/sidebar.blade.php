@@ -71,24 +71,20 @@
                                 <p>Update Details</p>
                             </a>
                         </li>
+                        @if(Auth::guard('admin')->user()->role=="admin")
                         <li class="nav-item">
                             <a href="{{ url('admin/subadmins') }}" class="nav-link {{ (Session::get('page') == 'subadmins') ? 'active' : '' }}">
                                 <i class="nav-icon bi bi-circle"></i>
                                 <p>Subadmins</p>
                             </a>
                         </li>
-                        <li class="nav-item">
-                            <a href="./index3.html" class="nav-link">
-                                <i class="nav-icon bi bi-circle"></i>
-                                <p>Dashboard v3</p>
-                            </a>
-                        </li>
+                        @endif
                     </ul>
                 </li>
                 <li class="nav-item">
-                    <a href="./starter.html" class="nav-link">
+                    <a href="#" class="nav-link">
                         <i class="nav-icon bi bi-file-earmark"></i>
-                        <p>Starter Page</p>
+                        <p>Catalogue Management</p>
                     </a>
                 </li>
                 <li class="nav-item">
@@ -98,18 +94,18 @@
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a href="#" class="nav-link">
+                    <a href="#" class="nav-link {{ (Session::get('page') == 'categories') ? 'active' : '' }}">
                         <i class="nav-icon bi bi-box-seam-fill"></i>
                         <p>
-                            Widgets
+                            Catalogue Management
                             <i class="nav-arrow bi bi-chevron-right"></i>
                         </p>
                     </a>
                     <ul class="nav nav-treeview">
                         <li class="nav-item">
-                            <a href="./widgets/small-box.html" class="nav-link">
+                            <a href="{{ url('admin/categories') }}" class="nav-link {{ (Session::get('page') == 'categories') ? 'active' : '' }}">
                                 <i class="nav-icon bi bi-circle"></i>
-                                <p>Small Box</p>
+                                <p>Categories</p>
                             </a>
                         </li>
                         <li class="nav-item">

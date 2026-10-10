@@ -49,49 +49,162 @@ $(document).ready(function(){
       }
     });
 
-// Update Subadmin Status
-// Update Subadmin Status
-$(document).on('click', '.updateSubadminStatus', function (e) {
-    e.preventDefault();
+    // Update Subadmin Status
+    $(document).on('click', '.updateSubadminStatus', function (e) {
+        e.preventDefault();
 
-    var status = $(this).children('i').data('status');
-    var subadmin_id = $(this).data('subadmin_id');
+        var status = $(this).children('i').data('status');
+        var subadmin_id = $(this).data('subadmin_id');
 
-    $.ajax({
-        headers: {
-            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-        },
+        $.ajax({
+            headers: {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            },
 
-        type: 'POST',
+            type: 'POST',
 
-        url: '/admin/update-subadmin-status',
+            url: '/admin/update-subadmin-status',
 
-        data: {
-            status: status,
-            subadmin_id: subadmin_id
-        },
+            data: {
+                status: status,
+                subadmin_id: subadmin_id
+            },
 
-        success: function (resp) {
+            success: function (resp) {
 
-            if (resp.status == 0) {
+                if (resp.status == 0) {
 
-                $("a[data-subadmin_id='" + resp.subadmin_id + "']")
-                    .css('color', 'grey')
-                    .html('<i class="fas fa-toggle-off" data-status="Inactive"></i>');
+                    $("a[data-subadmin_id='" + resp.subadmin_id + "']")
+                        .css('color', 'grey')
+                        .html('<i class="fas fa-toggle-off" data-status="Inactive"></i>');
 
-            } else if (resp.status == 1) {
+                } else if (resp.status == 1) {
 
-                $("a[data-subadmin_id='" + resp.subadmin_id + "']")
-                    .css('color', '#3f6ed3')
-                    .html('<i class="fas fa-toggle-on" data-status="Active"></i>');
+                    $("a[data-subadmin_id='" + resp.subadmin_id + "']")
+                        .css('color', '#3f6ed3')
+                        .html('<i class="fas fa-toggle-on" data-status="Active"></i>');
+                }
+            },
+
+            error: function (xhr) {
+                console.log(xhr.responseText);
+                alert("Something went wrong. Please try again.");
             }
-        },
+        });
+    });
 
-        error: function (xhr) {
-            console.log(xhr.responseText);
-            alert("Something went wrong. Please try again.");
+    // Update Category Status
+    $(document).on('click', '.updateCategoryStatus', function () {
+
+        var status = $(this).find('i').data('status');
+        var category_id = $(this).data('category-id');
+
+        $.ajax({
+            headers: {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            },
+            type: 'post',
+            url: '/admin/update-category-status',
+            data: {
+                status: status,
+                category_id: category_id
+            },
+            success: function (resp) {
+
+                if (resp['status'] == 0) {
+                    $("a[data-category-id='" + category_id + "']").html(
+                        "<i class='fas fa-toggle-off' style='color:grey;' data-status='Inactive'></i>"
+                    );
+                } else if (resp['status'] == 1) {
+                    $("a[data-category-id='" + category_id + "']").html(
+                        "<i class='fas fa-toggle-on' style='color:#28a745;' data-status='Active'></i>"
+                    );
+                }
+
+            },
+            error: function () {
+                alert("Error");
+            }
+        });
+
+    
+    });
+
+        $(document).on('click', '#deleteCategoryImage', function () {
+        if (confirm('Are you sure you want to remove this Category Image?')) {
+            var category_id = $(this).data('category-id');
+
+            $.ajax({
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                },
+                type: 'post',
+                url: '/admin/delete-category-image',
+                data: { category_id: category_id },
+                success: function (resp) {
+                    if (resp['status'] == true) {
+                        alert(resp['message']);
+                        $('#categoryImageBlock').remove();
+                    }
+                },
+                error: function () {
+                    alert("Error occurred while deleting the image.");
+                }
+            });
         }
     });
-});
+
+        $(document).on('click', '#deleteSizeChartImage', function () {
+        if (confirm('Are you sure you want to remove this Size Chart Image?')) {
+            var category_id = $(this).data('category-id');
+
+            $.ajax({
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                },
+                type: 'post',
+                url: '/admin/delete-sizechart-image',
+                data: { category_id: category_id },
+                success: function (resp) {
+                    if (resp['status'] == true) {
+                        alert(resp['message']);
+                        $('#sizechartImageBlock').remove();
+                    }
+                },
+                error: function () {
+                    alert('Error occurred while deleting the image.');
+                }
+            });
+        }
+    });
+
+    $(document).on("click", ".confirmDelete", function (e) {
+        e.preventDefault();
+
+        let button = $(this);
+        let module = button.data("module");
+        let moduleid = button.data("id");
+        let form = button.closest("form");
+        let redirectUrl = "/admin/delete-" + module + "/" + moduleid;
+
+        Swal.fire({
+            title: "Are you sure?",
+            text: "You won't be able to revert this!",
+            icon: "warning",
+            showCancelButton: true,
+            confirmButtonColor: "#3085d6",
+            cancelButtonColor: "#d33",
+            confirmButtonText: "Yes, delete it!"
+        }).then((result) => {
+            if (result.isConfirmed) {
+                if (form.length > 0) {
+                    form.submit(); // Submit form (used in category module)
+                } else {
+                    window.location.href = redirectUrl; // Redirect for subadmin delete
+                }
+            }
+        });
+    });
+
 
 });

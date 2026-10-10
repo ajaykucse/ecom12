@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\Admin;
+use App\Models\AdminsRole;
 use Illuminate\Http\Request;
 use Auth;
 use App\Http\Requests\Admin\LoginRequest;
@@ -171,8 +172,9 @@ class AdminController extends Controller
     public function updateRole($id){
         $subadminRoles = AdminsRole::where('subadmin_id', $id)->get()->toArray();
         $subadminDetails = Admin::where('id',$id)->first()->toArray();
-        $title "Update " . $subadminDetails['name'] . " Subadmin Roles/Permissions";
-        return view('admin.subadmins.update_roles')->with(compact('title','id','subadminRoles'));
+        $modules = ["categories", "products", "orders", "users",'subscribers'];
+        $title = "Update " . $subadminDetails['name'] . " Subadmin Roles/Permissions";
+        return view('admin.subadmins.update_roles')->with(compact('title','id','subadminRoles','modules'));
     }
     public function updateRoleRequest(Request $request){
         if($request->isMethod('post')){

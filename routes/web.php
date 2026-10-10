@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Admin\AdminController;
+use App\Http\Controllers\Admin\CategoryController;
 
 Route::get('/', function () {
     return view('welcome');
@@ -28,7 +29,8 @@ Route::prefix('admin')->group(function () {
         Route::post('update-details', [AdminController::class, 'updateDetails'])->name('admin.update-details.request');
         // Delete Profile Imafe Route
         Route::post('delete-profile-image', [AdminController::class, 'deleteProfileImage']);
-        // Display Subadmins Details
+
+        // Sub-Admins
         Route::get('subadmins', [AdminController::class, 'subadmins']);
         Route::post('update-subadmin-status', [AdminController::class, 'updateSubadminStatus']);
         Route::get('add-edit-subadmin/{id?}', [AdminController::class, 'addEditSubadmin']);
@@ -36,6 +38,12 @@ Route::prefix('admin')->group(function () {
         Route::get('delete-subadmin/{id}', [AdminController::class, 'deleteSubadmin']);
         Route::get('/update-role/{id}',[AdminController::class,'updateRole']);
         Route::post('/update-role/request',[AdminController::class,'updateRoleRequest']);
+
+        //Categories 
+        Route::resource('categories', CategoryController::class);
+        Route::post('update-category-status', [CategoryController::class, 'updateCategoryStatus']);
+        Route::post('delete-category-image', [CategoryController::class, 'deleteCategoryImage']);
+        Route::post('delete-sizechart-image', [CategoryController::class, 'deleteSizechartImage']);
         // Admin Logout
         Route::get('logout', [AdminController::class, 'destroy'])->name('admin.logout');
     });
